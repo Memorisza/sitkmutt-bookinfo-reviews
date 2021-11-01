@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookinfo-dev-reviews
+  namespace: student38-bookinfo-dev
+  labels:
+    app: bookinfo-dev-reviews
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookinfo-dev-reviews
+  template:
+    metadata:
+      labels:
+        app: bookinfo-dev-reviews
+    spec:
+      containers:
+      - name: bookinfo-dev-reviews
+        image: ghcr.io/memorisza/bookinfo-reviews:dev
+        imagePullPolicy: Always
+        env:
+        - name: RATINGS_SERVICE
+          value: http://sitkmutt.bookinfo.dev.opsta.net/student38/ratings/
+        - name: STAR_COLOR
+          value: pink
+        - name: ENABLE_RATINGS
+          value: 'true'
+      imagePullSecrets:
+      - name: registry-bookinfo
